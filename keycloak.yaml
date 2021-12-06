@@ -33,6 +33,8 @@ spec:
       - name: keycloak
         image: quay.io/keycloak/keycloak:15.0.2
         env:
+        - name: KEYCLOAK_FRONTEND_URL
+          value: https://bookinfo.hpcsvc.io/auth
         - name: KEYCLOAK_USER
           value: "admin"
         - name: KEYCLOAK_PASSWORD
