@@ -24,8 +24,8 @@ spec:
         host: productpage
         port:
           number: 9080
-  match:
-      Uri:
+  - match:
+      uri:
         prefix:  /
     route:
     -  destination:
