@@ -5,3 +5,5 @@
 
 ### Very important doc
 ### https://www.keycloak.org/docs/14.0/server_admin/
+
+### We need to tell our bookinfo application to authenticate from Keycloak
