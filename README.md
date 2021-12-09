@@ -7,3 +7,7 @@
 ### https://www.keycloak.org/docs/14.0/server_admin/
 
 ### We need to tell our bookinfo application to authenticate from Keycloak
+
+### Python client: https://pypi.org/project/python-keycloak/
+
+### Securing Springboot Aplication: https://medium.com/@bcarunmail/securing-rest-api-using-keycloak-and-spring-oauth2-6ddf3a1efcc2
