@@ -1,5 +1,11 @@
 # keycloak
 
+## https://www.solo.io/blog/how-to-configure-zero-trust-authn-authz-with-istio/
+
+## https://istio.io/latest/docs/tasks/security/authorization/authz-http/#configure-access-control-for-workloads-using-http-traffic
+
+
+
 ### Keycloak master/admin issue solution
 ### https://github.com/codecentric/helm-charts/issues/271#issuecomment-920600882
 

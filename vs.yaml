@@ -42,7 +42,7 @@ metadata:
   namespace: default
 spec:
   gateways:
-  - bookinfo-gateway
+  - keycloak-gateway
   hosts:
   - bookinfo.hpcsvc.io
   http:
@@ -64,7 +64,32 @@ spec:
           number: 9080
 
 ---
-
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: keycloak-gateway
+  namespace: default
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - hosts:
+    - keycloak.bookinfo.hpcsvc.io
+    - bookinfo.hpcsvc.io
+    port:
+      name: http
+      number: 80
+      protocol: HTTP
+    tls:
+      httpsRedirect: true
+  - hosts:
+    - keycloak.bookinfo.hpcsvc.io
+    - bookinfo.hpcsvc.io
+    port:
+      name: https-443
+      number: 443
+      protocol: HTTP
+---
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -72,7 +97,7 @@ metadata:
   namespace: default
 spec:
   gateways:
-  - bookinfo-gateway
+  - keycloak-gateway
   hosts:
   - keycloak.bookinfo.hpcsvc.io
   http:
@@ -84,3 +109,23 @@ spec:
         host:  keycloak.default.svc.cluster.local
         port:
           number:  8080
+---
+# apiVersion: networking.istio.io/v1beta1
+# kind: VirtualService
+# metadata:
+#   name: nginx
+#   namespace: default
+# spec:
+#   gateways:
+#   - keycloak-gateway
+#   hosts:
+#   - bookinfo.hpcsvc.io
+#   http:
+#   - match:
+#     - uri:
+#         prefix: /
+#     route:
+#     -  destination:
+#         host:  nginx.default.svc.cluster.local
+#         port:
+#           number:  80

@@ -1,0 +1,17 @@
+# Run the following command to create a productpage-viewer policy to allow access with GET method to the productpage workload. 
+#cThe policy does not set the from field in the rules which means all sources are allowed, effectively allowing all users and workloads:
+
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: "productpage-viewer"
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: productpage
+  action: ALLOW
+  rules:
+  - to:
+    - operation:
+        methods: ["GET"]

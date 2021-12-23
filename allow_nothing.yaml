@@ -1,0 +1,8 @@
+#In a zero-trust model, we should not allow any services to talk to another service unless we explicitly allow it. 
+#Luckily, this setting is easy with Istio’s AuthorizationPolicy:
+
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: allow-nothing
+ namespace: default
