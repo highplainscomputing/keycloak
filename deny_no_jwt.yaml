@@ -19,9 +19,9 @@ spec:
  - from:
    - source:
        notRequestPrincipals: ["*"]
-  #  to:
-  #   - operation:
-  #       methods: ["*"]
+   to:
+    - operation:
+        paths: ["/ratings"]
 
 
 # apiVersion: security.istio.io/v1beta1
@@ -37,3 +37,17 @@ spec:
 #   - from:
 #     - source:
 #        requestPrincipals: ["testing@secure.istio.io/testing@secure.istio.io"]
+---
+
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: "jwt-example"
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      app: ratings
+  jwtRules:
+  - issuer: "testing@secure.istio.io"
+    jwksUri: "https://keycloak.bookinfo.hpcsvc.io/auth/realms/dev/protocol/openid-connect/token"
