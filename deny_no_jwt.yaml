@@ -12,6 +12,10 @@ spec:
      app: ratings
  action: DENY
  rules:
+#  - from:
+#    - source:
+#        principals:
+#        - cluster.local/ns/default/sa/bookinfo-reviews
  - from:
    - source:
        notRequestPrincipals: ["*"]
