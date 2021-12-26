@@ -9,7 +9,9 @@
 
 ## https://istio.io/latest/docs/tasks/security/authorization/authz-jwt/
 
-
+## Istio Authorization Policy not working --> solution/causes
+## https://istio.io/v1.4/docs/ops/common-problems/security-issues/#ensure-authorization-is-enabled-correctly
+## https://istio.io/latest/docs/ops/common-problems/security-issues/#ensure-istiod-accepts-the-policies
 
 ### Keycloak master/admin issue solution
 ### https://github.com/codecentric/helm-charts/issues/271#issuecomment-920600882
