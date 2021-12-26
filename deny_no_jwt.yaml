@@ -5,6 +5,7 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
  name: deny-no-jwt
+ namespace: default
 spec:
  selector:
    matchLabels:
@@ -14,6 +15,9 @@ spec:
  - from:
    - source:
        notRequestPrincipals: ["*"]
+  #  to:
+  #   - operation:
+  #       methods: ["*"]
 
 
 # apiVersion: security.istio.io/v1beta1

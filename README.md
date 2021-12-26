@@ -5,6 +5,11 @@
 ## https://istio.io/latest/docs/tasks/security/authorization/authz-http/#configure-access-control-for-workloads-using-http-traffic
 
 
+## https://istio.io/latest/docs/reference/config/security/authorization-policy/
+
+## https://istio.io/latest/docs/tasks/security/authorization/authz-jwt/
+
+
 
 ### Keycloak master/admin issue solution
 ### https://github.com/codecentric/helm-charts/issues/271#issuecomment-920600882
