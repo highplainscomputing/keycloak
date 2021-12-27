@@ -57,6 +57,22 @@ spec:
     - source:
        requestPrincipals: ["testing@secure.istio.io/testing@secure.istio.io"]
 
+# Ye wala is not working
+
+# apiVersion: security.istio.io/v1beta1
+# kind: AuthorizationPolicy
+# metadata:
+#   name: frontend-ingress
+# spec:
+#   selector:
+#     matchLabels:
+#       app: ratings
+#   action: DENY
+#   rules:
+#   - from:
+#     - source:
+#        notRequestPrincipals: ["*"]s
+
 # apiVersion: security.istio.io/v1beta1
 # kind: AuthorizationPolicy
 # metadata:
