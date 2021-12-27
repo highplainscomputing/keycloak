@@ -1,28 +1,46 @@
 # What if we wanted to let in only the user with email “user1@solo.io”? Let’s see how to do that with JWT claims validation.  
 # To set this up, let’s first create a rule to deny traffic that does not have a JWT. To do this, apply the following policy:
 
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
- name: deny-no-jwt
- namespace: default
-spec:
- selector:
-   matchLabels:
-     app: ratings
- action: DENY
- rules:
+# apiVersion: security.istio.io/v1beta1
+# kind: AuthorizationPolicy
+# metadata:
+#  name: deny-no-jwt
+#  namespace: default
+# spec:
+#  selector:
+#    matchLabels:
+#      app: ratings
+#  action: DENY
+#  rules:
+#  - from:
+#    - source:
+#        notRequestPrincipals: ["*"]
 #  - from:
 #    - source:
 #        principals:
 #        - cluster.local/ns/default/sa/bookinfo-reviews
- - from:
-   - source:
-       notRequestPrincipals: ["*"]
-   to:
-    - operation:
-        paths: ["/ratings"]
+  #  to:
+  #   - operation:
+  #       paths: ["/ratings"]
 
+
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: "frontend-ingress"
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  action: DENY
+  rules:
+  - from:
+    - source:
+        notRequestPrincipals: ["*"]
+    to:
+    - operation:
+        paths: ["/productpage"]
 
 # apiVersion: security.istio.io/v1beta1
 # kind: AuthorizationPolicy
@@ -39,15 +57,15 @@ spec:
 #        requestPrincipals: ["testing@secure.istio.io/testing@secure.istio.io"]
 ---
 
-apiVersion: security.istio.io/v1beta1
-kind: RequestAuthentication
-metadata:
-  name: "jwt-example"
-  namespace: istio-system
-spec:
-  selector:
-    matchLabels:
-      app: ratings
-  jwtRules:
-  - issuer: "testing@secure.istio.io"
-    jwksUri: "https://keycloak.bookinfo.hpcsvc.io/auth/realms/dev/protocol/openid-connect/token"
+# apiVersion: security.istio.io/v1beta1
+# kind: RequestAuthentication
+# metadata:
+#   name: "jwt-example"
+#   namespace: istio-system
+# spec:
+#   selector:
+#     matchLabels:
+#       app: ratings
+#   jwtRules:
+#   - issuer: "testing@secure.istio.io"
+#     jwksUri: "https://keycloak.bookinfo.hpcsvc.io/auth/realms/dev/protocol/openid-connect/token"
