@@ -24,45 +24,30 @@
   #       paths: ["/ratings"]
 
 
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: "frontend-ingress"
-  namespace: istio-system
-spec:
-  selector:
-    matchLabels:
-      istio: ingressgateway    
-  action: DENY
-  rules:
-  - from:
-    - source:
-        notRequestPrincipals: ["*"]
-    to:
-    - operation:
-        paths: ["/productpage"]
+# apiVersion: security.istio.io/v1beta1
+# kind: AuthorizationPolicy
+# metadata:
+#   name: "frontend-ingress"
+#   namespace: istio-system
+# spec:
+#   selector:
+#     matchLabels:
+#       istio: ingressgateway    
+#   action: DENY
+#   rules:
+#   - from:
+#     - source:
+#         notRequestPrincipals: ["*"]
+#     to:
+#     - operation:
+#         paths: ["/productpage"]
 
----
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: frontend-ingress
-spec:
-  selector:
-    matchLabels:
-      app: ratings
-  action: ALLOW
-  rules:
-  - from:
-    - source:
-       requestPrincipals: ["testing@secure.istio.io/testing@secure.istio.io"]
-
-# Ye wala is not working
+# Ye wala is only working on istio: ingressgateway
 
 # apiVersion: security.istio.io/v1beta1
 # kind: AuthorizationPolicy
 # metadata:
-#   name: frontend-ingress
+#   name: deny-no-jwt
 # spec:
 #   selector:
 #     matchLabels:
@@ -71,7 +56,7 @@ spec:
 #   rules:
 #   - from:
 #     - source:
-#        notRequestPrincipals: ["*"]s
+#        notRequestPrincipals: ["*"]
 
 # apiVersion: security.istio.io/v1beta1
 # kind: AuthorizationPolicy
@@ -86,7 +71,7 @@ spec:
 #   - from:
 #     - source:
 #        requestPrincipals: ["testing@secure.istio.io/testing@secure.istio.io"]
----
+# ---
 
 # apiVersion: security.istio.io/v1beta1
 # kind: RequestAuthentication
@@ -100,3 +85,52 @@ spec:
 #   jwtRules:
 #   - issuer: "testing@secure.istio.io"
 #     jwksUri: "https://keycloak.bookinfo.hpcsvc.io/auth/realms/dev/protocol/openid-connect/token"
+# ---
+apiVersion: security.istio.io/v1beta1
+kind: "RequestAuthentication"
+metadata:
+  name: ratings-jwt
+spec:
+  selector:
+    matchLabels:
+      app: productpage
+  jwtRules:
+    - outputPayloadToHeader: bookinfotoken
+      issuer: https://keycloak.bookinfo.hpcsvc.io/auth/realms/dev
+      jwksUri: https://keycloak.bookinfo.hpcsvc.io/auth/realms/dev/protocol/openid-connect/certs
+
+---
+# apiVersion: security.istio.io/v1beta1
+# kind: AuthorizationPolicy
+# metadata:
+#   name: ratings-jwt
+# spec:
+#   selector:
+#     matchLabels:
+#       app: ratings
+#   action: ALLOW
+#   rules:
+#   - to:
+#     - operation:
+#         methods: ["GET"]
+#     when:
+#       - key: request.auth.claims[iss]
+#         values: ["https://keycloak.bookinfo.hpcsvc.io/auth/realms/dev"]
+
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: ratings-jwt
+spec:
+  selector:
+    matchLabels:
+      app: productpage
+  action: ALLOW
+  rules:
+  - to:
+    - operation:
+        methods: ["GET"]
+    when:
+      - key: request.auth.claims[iss]
+        values: ["https://keycloak.bookinfo.hpcsvc.io/auth/realms/dev"]
+
