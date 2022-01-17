@@ -106,7 +106,7 @@ spec:
         prefix: /
     route:
     -  destination:
-        host:  keycloak.default.svc.cluster.local
+        host:  keycloak.keycloak.svc.cluster.local
         port:
           number:  8080
 ---
